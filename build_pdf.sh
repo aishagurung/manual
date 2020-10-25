@@ -8,7 +8,7 @@ i=1
 for lang in $LANGUAGES
 do
     printf -- '----- Building language "%s"... [%d/%d] -----\n' "$lang" "$i" "$NUM_LANGUAGES"
-    make versionedlatexpdf SPHINXOPTS="-Q -j $(nproc) -Dlanguage=$lang" >/dev/null
+    sphinx-build -b latexpdf -d build/doctrees source "build/pdf/${lang}" -Q -j $(nproc) "-Dlanguage=${lang}" >/dev/null
     i=$((i + 1))
 done
 

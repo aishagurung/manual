@@ -11,14 +11,6 @@ if: type != pull_request AND branch =~ /^(manual-)/
 install:
 - pip install -r requirements.txt
 
-before_script:
-- git clone https://github.com/mixxxdj/manual.git manual
-- cd manual
-- git branch -r
-- export LATEST_BRANCH="$(git branch -r | grep -Po 'origin/manual-\d+\.\d+\.x' | sort | tail -n 1)"
-- echo "Building from branch ${LATEST_BRANCH}"
-- git checkout "${LATEST_BRANCH}"
-
 env:
   global:
     # DOWNLOADS_HOSTGATOR_DOT_MIXXX_DOT_ORG_KEY_PASSWORD for deploys.
@@ -27,6 +19,13 @@ env:
 jobs:
   include:
     - name: HTML
+      before_script:
+      - git clone https://github.com/mixxxdj/manual.git manual
+      - cd manual
+      - git branch -r
+      - export LATEST_BRANCH="$(git branch -r | grep -Po 'origin/manual-\d+\.\d+\.x' | sort | tail -n 1)"
+      - echo "Building from branch ${LATEST_BRANCH}"
+      - git checkout "${LATEST_BRANCH}"
       script:
       - sh ../build_html.sh
       before_deploy:
@@ -41,7 +40,7 @@ jobs:
 
     - name: PDF
       script:
-      - sh ../build_pdf.sh
+      - sh build_pdf.sh
       addons:
         apt:
           packages:
