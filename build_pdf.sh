@@ -1,6 +1,6 @@
 # Parse languages
 cd source || exit 1
-LANGUAGES="$(python -c 'import conf; print(" ".join(sorted((lang for lang in conf.supported_languages.keys()), reverse=True)))')"
+LANGUAGES="en de-DE"
 cd .. || exit 1
 NUM_LANGUAGES="$(printf '%s' "$LANGUAGES" | wc -w)"
 
