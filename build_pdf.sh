@@ -8,12 +8,12 @@ i=1
 for lang in $LANGUAGES
 do
     printf -- '----- Building language "%s"... [%d/%d] -----\n' "$lang" "$i" "$NUM_LANGUAGES"
-    sphinx-build -b latexpdf -d build/doctrees source "build/pdf/${lang}" -Q -j $(nproc) "-Dlanguage=${lang}" >/dev/null
+    make latexpdf SPHINXOPTS="-Q -j $(nproc) -Dlanguage=$lang" >/dev/null
     i=$((i + 1))
 done
 
 cd build/latex || exit 1
-mkdir ../pdf
+mkdir -p ../pdf
 for file in */*/Mixxx-Manual.pdf
 do
     newfilename="mixxx-manual-$(dirname "$file" | tr "/" "-")"
